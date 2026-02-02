@@ -1,0 +1,120 @@
+<div class="trello">
+
+  <!-- COLUMNAS -->
+  <div class="columnas">
+
+    <!-- PENDIENTE -->
+    <div class="col pendiente"
+     cdkDropList
+     #pendienteList="cdkDropList"
+     [cdkDropListData]="pendiente"
+     [cdkDropListConnectedTo]="[procesoList, terminadaList]"
+     (cdkDropListDropped)="mover($event,'pendiente')">
+      <h2>🟦 Pendiente ({{pendiente.length}})</h2>
+      <button class="btn-add" (click)="abrirPanel('pendiente')">➕</button>
+    
+      <div class="card" *ngFor="let t of pendiente" cdkDrag>
+        <div class="titulo">
+          {{t.titulo}}
+          <span [class]="colorPrioridad(t.prioridad)">{{t.prioridad | uppercase}} </span>
+
+        </div>
+        <p>{{t.descripcion}}</p>
+        <small>📅 {{ formatDate(t.fecha_limite) || 'Sin fecha' }}</small>
+
+
+        <img *ngIf="t.imagen_url" [src]="t.imagen_url">
+        <a *ngIf="t.enlace" [href]="t.enlace" target="_blank">🔗 enlace</a>
+
+        <div class="acciones">
+          <button (click)="editar(t)">✏️</button>
+          <button (click)="eliminar(t.id)">🗑</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROCESO -->
+    <div class="col proceso"
+     cdkDropList
+     #procesoList="cdkDropList"
+     [cdkDropListData]="proceso"
+     [cdkDropListConnectedTo]="[pendienteList, terminadaList]"
+     (cdkDropListDropped)="mover($event,'proceso')">
+
+    <h2>🟨 En proceso ({{proceso.length}})</h2>
+      <button class="btn-add" (click)="abrirPanel('proceso')">➕</button>
+
+      <div class="card" *ngFor="let t of proceso" cdkDrag>
+        <div class="titulo">
+          {{t.titulo}}
+          <span [class]="colorPrioridad(t.prioridad)">{{t.prioridad}}</span>
+        </div>
+        <p>{{t.descripcion}}</p>
+        <small>📅 {{ formatDate(t.fecha_limite) || 'Sin fecha' }}</small>
+
+        <img *ngIf="t.imagen_url" [src]="t.imagen_url">
+        <a *ngIf="t.enlace" [href]="t.enlace" target="_blank">🔗 enlace</a>
+
+        <div class="acciones">
+          <button (click)="editar(t)">✏️</button>
+          <button (click)="eliminar(t.id)">🗑</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TERMINADO -->
+    <div class="col terminada"
+        cdkDropList
+        #terminadaList="cdkDropList"
+        [cdkDropListData]="terminada"
+        [cdkDropListConnectedTo]="[pendienteList, procesoList]"
+        (cdkDropListDropped)="mover($event,'terminada')">
+      <h2>🟩 Terminado ({{terminada.length}})</h2>
+      <button class="btn-add" (click)="abrirPanel('terminada')">➕</button>
+
+      <div class="card" *ngFor="let t of terminada" cdkDrag>
+        <div class="titulo">
+          {{t.titulo}}
+          <span [class]="colorPrioridad(t.prioridad)">{{t.prioridad}}</span>
+        </div>
+
+        
+        <p>{{t.descripcion}}</p>
+        <small>📅 {{ formatDate(t.fecha_limite) || 'Sin fecha' }}</small>
+
+
+        <img *ngIf="t.imagen_url" [src]="t.imagen_url">
+        <a *ngIf="t.enlace" [href]="t.enlace" target="_blank">🔗 enlace</a>
+
+        <div class="acciones">
+          <button (click)="editar(t)">✏️</button>
+          <button (click)="eliminar(t.id)">🗑</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PANEL LATERAL -->
+  <div class="panel" *ngIf="mostrarPanel">
+    <div class="panel-content">
+      <h3>{{modoEdicion ? 'Editar tarea' : 'Nueva tarea'}}</h3>
+
+      <input placeholder="Título" [(ngModel)]="tareaActual.titulo">
+      <textarea placeholder="Descripción" [(ngModel)]="tareaActual.descripcion"></textarea>
+      <input placeholder="URL Imagen" [(ngModel)]="tareaActual.imagen_url">
+      <input placeholder="Enlace" [(ngModel)]="tareaActual.enlace">
+      <input type="date" [(ngModel)]="tareaActual.fecha_limite">
+
+      <select [(ngModel)]="tareaActual.prioridad">
+        <option value="baja">🟢 Baja</option>
+        <option value="media">🟡 Media</option>
+        <option value="alta">🔴 Alta</option>
+      </select>
+
+      <button (click)="guardar()">Guardar</button>
+      <button class="cancelar" (click)="cerrarPanel()">Cancelar</button>
+    </div>
+  </div>
+
+</div>
