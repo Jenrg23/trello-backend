@@ -6,30 +6,28 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const db = mysql.createPool({ // Cambia 'createConnection' por 'createPool'
+//  Conexión a MySQL
+const db = mysql.createConnection({
   host: "sql5.freesqldatabase.com",
   user: "sql5816052",
   password: "myqEiEjfc8",
-  database: "sql5816052",
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+  database: "sql5816052"
 });
 
 db.connect(err => {
   if (err) {
-    console.log("❌ Error conectando a MySQL:", err);
+    console.log("Error conectando a MySQL:", err);
   } else {
-    console.log("✅ Conectado a MySQL");
+    console.log("Conectado a MySQL");
   }
 });
 
-// 🧪 Ruta test
+// Ruta test
 app.get("/", (req, res) => {
-  res.send("✅ API Trello PRO funcionando");
+  res.send("API Trello PRO funcionando");
 });
 
-// 📥 Listar tareas
+//  Listar tareas
 app.get("/tareas", (req, res) => {
   const sql = "SELECT * FROM tareas ORDER BY fecha_creacion DESC";
   db.query(sql, (err, result) => {
@@ -38,7 +36,7 @@ app.get("/tareas", (req, res) => {
   });
 });
 
-// ➕ Crear tarea
+// Crear tarea
 app.post("/tareas", (req, res) => {
   const { titulo, descripcion, estado, imagen_url, enlace, fecha_limite, prioridad } = req.body;
 
@@ -49,11 +47,11 @@ app.post("/tareas", (req, res) => {
 
   db.query(sql, [titulo, descripcion, estado, imagen_url, enlace, fecha_limite, prioridad], (err, result) => {
     if (err) {
-      console.log("❌ Error crear:", err);
+      console.log("Error crear:", err);
       return res.status(500).json(err);
     }
 
-    res.json({ mensaje: "Tarea creada ✅" });
+    res.json({ mensaje: "Tarea creada " });
   });
 });
 
@@ -76,13 +74,13 @@ app.put("/tareas/:id/estado", (req, res) => {
       return res.status(404).json({ mensaje: "Tarea no encontrada o estado inválido" });
     }
 
-    res.json({ mensaje: "Estado actualizado ✅" });
+    res.json({ mensaje: "Estado actualizado " });
   });
 });
 
 
 
-// ✏️ Editar tarea
+//  Editar tarea
 app.put("/tareas/:id", (req, res) => {
   const { titulo, descripcion, estado, imagen_url, enlace, fecha_limite, prioridad } = req.body;
   const { id } = req.params;
@@ -95,16 +93,16 @@ app.put("/tareas/:id", (req, res) => {
 
   db.query(sql, [titulo, descripcion, estado, imagen_url, enlace, fecha_limite, prioridad, id], (err, result) => {
     if (err) {
-      console.log("❌ Error:", err);
+      console.log(" Error:", err);
       return res.status(500).json(err);
     }
 
-    res.json({ mensaje: "Tarea actualizada ✅" });
+    res.json({ mensaje: "Tarea actualizada " });
   });
 });
 
 
-// 🗑 Eliminar tarea
+//  Eliminar tarea
 app.delete("/tareas/:id", (req, res) => {
   const sql = "DELETE FROM tareas WHERE id=?";
   db.query(sql, [req.params.id], (err, result) => {
@@ -118,5 +116,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
-});
-
