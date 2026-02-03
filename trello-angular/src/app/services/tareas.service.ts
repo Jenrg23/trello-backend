@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class TareasService {
 
-  private apiUrl = 'http://localhost:3000/tareas';
+  private apiUrl = 'https://trello-backend-l2vs.onrender.com/tareas';
 
   constructor(private http: HttpClient) {}
 
