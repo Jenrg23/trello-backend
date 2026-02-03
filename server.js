@@ -6,12 +6,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🔌 Conexión a MySQL
+//  Conexión a MySQL
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "Rivera23",
-  database: "trello"
+  host: "sql5.freesqldatabase.com",
+  user: "sql5816052",
+  password: "myqEiEjfc8",
+  database: "sql5816052"
 });
 
 db.connect(err => {
