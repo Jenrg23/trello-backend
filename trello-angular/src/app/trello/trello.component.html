@@ -22,8 +22,7 @@
         <p>{{t.descripcion}}</p>
         <small>📅 {{ formatDate(t.fecha_limite) || 'Sin fecha' }}</small>
 
-
-        <img *ngIf="tarea.url" [src]="tarea.url" alt="Imagen de la tarea" style="width: 100%; border-radius: 4px; margin-bottom: 8px;">
+        <img *ngIf="t.imagen_url" [src]="t.imagen_url" alt="Imagen" style="width: 100%; border-radius: 4px; margin-bottom: 8px;">
         <a *ngIf="t.enlace" [href]="t.enlace" target="_blank">🔗 enlace</a>
 
         <div class="acciones">
@@ -52,7 +51,7 @@
         <p>{{t.descripcion}}</p>
         <small>📅 {{ formatDate(t.fecha_limite) || 'Sin fecha' }}</small>
 
-        <img *ngIf="t.imagen_url" [src]="t.imagen_url">
+        <img *ngIf="t.imagen_url" [src]="t.imagen_url" style="width: 100%; border-radius: 4px;">
         <a *ngIf="t.enlace" [href]="t.enlace" target="_blank">🔗 enlace</a>
 
         <div class="acciones">
@@ -83,7 +82,7 @@
         <small>📅 {{ formatDate(t.fecha_limite) || 'Sin fecha' }}</small>
 
 
-        <img [src]="tarea.url" alt="Imagen de la tarea" style="width: 100%;">
+        <img *ngIf="t.imagen_url" [src]="t.imagen_url" alt="Imagen" style="width: 100%; border-radius: 4px;">
         <a *ngIf="t.enlace" [href]="t.enlace" target="_blank">🔗 enlace</a>
 
         <div class="acciones">
