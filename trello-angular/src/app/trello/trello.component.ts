@@ -21,7 +21,7 @@ export class TrelloComponent implements OnInit {
     return this.datePipe.transform(fecha, 'dd/MM/yyyy'); // cambia el formato aquí
   }
 
-  api = 'http://localhost:3000/tareas';
+  api = 'https://trello-backend-l2vs.onrender.com/tareas';
 
   pendiente:any[] = [];
   proceso:any[] = [];
